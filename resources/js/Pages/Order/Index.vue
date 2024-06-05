@@ -1,0 +1,33 @@
+<script setup lang="ts">
+import Layout from "@/Layouts/Layout.vue";
+import { Link } from "@inertiajs/vue3";
+
+export type Order = { id: number; status: string; created_at: Date };
+defineProps<{ orders: Order[] }>();
+</script>
+
+<template>
+    <Layout>
+        <h1 class="pb-4 text-2xl font-bold">Orders</h1>
+        <div v-if="orders.length > 0" class="flex flex-col gap-6">
+            <div v-for="order in orders" :key="order.id">
+                <Link :href="`/orders/${order.id}`">
+                    <div class="card bg-base-100 shadow-xl hover:bg-base-200">
+                        <div
+                            class="flex flex-row items-center justify-between p-8"
+                        >
+                            <h2 class="card-title">Order #{{ order.id }}</h2>
+                            <div class="badge badge-neutral">
+                                {{ order.status }}
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+        </div>
+        <h1 v-else>
+            You have no orders at the moment. Go back to the home page to
+            purchase products.
+        </h1>
+    </Layout>
+</template>
