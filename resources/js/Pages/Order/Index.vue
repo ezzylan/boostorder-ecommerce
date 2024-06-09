@@ -2,7 +2,13 @@
 import Layout from "@/Layouts/Layout.vue";
 import { Link } from "@inertiajs/vue3";
 
-export type Order = { id: number; status: string; created_at: Date };
+export type Order = {
+    id: number;
+    status: string;
+    total_price: number;
+    created_at: Date;
+};
+
 defineProps<{ orders: Order[] }>();
 </script>
 
@@ -16,8 +22,23 @@ defineProps<{ orders: Order[] }>();
                         <div
                             class="flex flex-row items-center justify-between p-8"
                         >
-                            <h2 class="card-title">Order #{{ order.id }}</h2>
-                            <div class="badge badge-neutral">
+                            <div class="flex items-center gap-2">
+                                <h2 class="card-title">
+                                    Order #{{ order.id }}
+                                </h2>
+                                <p>(Total Price: ${{ order.total_price }})</p>
+                            </div>
+                            <div
+                                class="badge"
+                                :class="{
+                                    'badge-info': order.status === 'To Ship',
+                                    'badge-warning':
+                                        order.status === 'To Receive',
+                                    'badge-success':
+                                        order.status === 'Completed',
+                                    'badge-error': order.status === 'Cancelled',
+                                }"
+                            >
                                 {{ order.status }}
                             </div>
                         </div>

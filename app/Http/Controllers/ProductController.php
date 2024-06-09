@@ -30,10 +30,12 @@ class ProductController extends Controller
 
     public function orderProducts(Request $request)
     {
-        $cart = $request->cart;
-        $order = Order::create(['status' => 'To Ship']);
+        $order = Order::create([
+            'status' => 'To Ship',
+            'total_price' => $request->totalPrice
+        ]);
 
-        foreach ($cart as $product) {
+        foreach ($request->cart as $product) {
             $order->products()->attach(
                 $product['id'],
                 [

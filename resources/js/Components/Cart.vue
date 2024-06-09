@@ -102,7 +102,7 @@ const cart = useCartStore().cart;
                 <Link
                     href="/orderProducts"
                     method="post"
-                    :data="{ cart }"
+                    :data="{ cart, totalPrice: useCartStore().subtotal }"
                     as="button"
                     class="btn btn-primary btn-block fixed bottom-4 mx-auto"
                     @click="useCartStore().$reset()"

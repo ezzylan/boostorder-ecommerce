@@ -17,12 +17,25 @@ const statuses = ["To Ship", "To Receive", "Completed", "Cancelled"];
             </ul>
         </div>
         <div class="flex justify-between">
-            <h1 class="pb-4 text-2xl font-bold">Order #{{ order.id }}</h1>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-bold">Order #{{ order.id }}</h1>
+                <p class="text-2xl">(Total Price: ${{ order.total_price }})</p>
+            </div>
 
             <div class="flex items-center gap-2">
                 <p class="font-bold">Status:</p>
                 <div class="dropdown dropdown-end">
-                    <div tabindex="0" role="button" class="btn m-1">
+                    <div
+                        tabindex="0"
+                        role="button"
+                        class="btn m-1"
+                        :class="{
+                            'btn-info': order.status === 'To Ship',
+                            'btn-warning': order.status === 'To Receive',
+                            'btn-success': order.status === 'Completed',
+                            'btn-error': order.status === 'Cancelled',
+                        }"
+                    >
                         {{ order.status }}
                     </div>
                     <ul
@@ -44,7 +57,9 @@ const statuses = ["To Ship", "To Receive", "Completed", "Cancelled"];
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div
+            class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+        >
             <div v-for="product in products" :key="product.id">
                 <div class="card bg-base-100 shadow-xl">
                     <figure class="pt-4">
@@ -52,8 +67,8 @@ const statuses = ["To Ship", "To Receive", "Completed", "Cancelled"];
                     </figure>
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ product.name }}</h2>
-                        <p>12PK / ${{ product.price }}</p>
                         <p>Quantity: {{ product.quantity }}</p>
+                        <p>Subtotal: ${{ product.price * product.quantity }}</p>
                     </div>
                 </div>
             </div>
